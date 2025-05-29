@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM public.ecr.aws/docker/library/node:slim
 # Copy application code.
 COPY . /app/
 # Change the working directory
