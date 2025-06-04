@@ -9,6 +9,7 @@ env:
   IMAGE_TAG: master
   ECR_REGISTRY: kandula17
   ECR_REPOSITORY: devops-internal
+  DOCKERHUB_REPOSITORY_NAME : kandula17/devops-internal
 
 jobs:
   build:
@@ -42,3 +43,26 @@ jobs:
  
       - name: Push Docker image
         run: sudo docker push kandula17/devops-internal:${{ env.IMAGE_TAG }}
+
+
+  delpoy:
+
+    needs: [build]
+    runs-on: [self-hosted, dev]
+
+    steps:
+
+#      - name: Set up kubectl
+#        uses: aws-actions/setup-kubectl@v4
+#        with:
+#          version: 'latest' # Or a specific version like '1.28.0'
+
+      - name: Update kubeconfig
+        run: |
+          aws eks update-kubeconfig --name ${{ env.EKS_CLUSTER_NAME }} --region ${{ env.AWS_REGION }}
+
+      - name: Deploy to EKS using kubectl (Kustomize example)
+        run: |
+          sed -i "s|kandula17/devops-internal|${{ env.DOCKERHUB_REPOSITORY_NAME }}|g" k8s/api.yaml
+          sed -i "s|master|${{ env.IMAGE_TAG }}|g" k8s/api.yaml
+          kubectl apply -f k8s/api.yaml        
