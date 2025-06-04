@@ -9,6 +9,7 @@ env:
   IMAGE_TAG: master
   ECR_REGISTRY: kandula17
   ECR_REPOSITORY: devops-internal
+  EKS_CLUSTER_NAME: sree
   DOCKERHUB_REPOSITORY_NAME : kandula17/devops-internal
 
 jobs:
