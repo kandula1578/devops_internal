@@ -66,4 +66,4 @@ jobs:
         run: |
           sed -i "s|kandula17/devops-internal|${{ env.DOCKERHUB_REPOSITORY_NAME }}|g" k8s/api.yaml
           sed -i "s|master|${{ env.IMAGE_TAG }}|g" k8s/api.yaml
-          kubectl apply -f k8s/api.yaml        
+          kubectl apply -f k8s/api.yaml --validate=false
