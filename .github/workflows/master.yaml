@@ -60,10 +60,10 @@ jobs:
 
       - name: Update kubeconfig
         run: |
-          aws eks update-kubeconfig --name ${{ env.EKS_CLUSTER_NAME }} --region ${{ env.AWS_REGION }}
+          sudo aws eks update-kubeconfig --name ${{ env.EKS_CLUSTER_NAME }} --region ${{ env.AWS_REGION }}
 
       - name: Deploy to EKS using kubectl (Kustomize example)
         run: |
-          sed -i "s|kandula17/devops-internal|${{ env.DOCKERHUB_REPOSITORY_NAME }}|g" k8s/api.yaml
-          sed -i "s|master|${{ env.IMAGE_TAG }}|g" k8s/api.yaml
-          kubectl apply -f k8s/api.yaml --validate=false
+          sudo sed -i "s|kandula17/devops-internal|${{ env.DOCKERHUB_REPOSITORY_NAME }}|g" k8s/api.yaml
+          sudo sed -i "s|master|${{ env.IMAGE_TAG }}|g" k8s/api.yaml
+          sudo kubectl apply -f k8s/api.yaml --validate=false
